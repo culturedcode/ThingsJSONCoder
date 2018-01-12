@@ -4,81 +4,63 @@ This repo contains a Swift file that allows the creation of the JSON required to
 
 ## Installation
 
-To install, download the [`ThingsJSONObjects.swift`](https://github.com/culturedcode/ThingsJSONCoder/blob/master/ThingsJSONObjects.swift) file and add it as a source file to your own project. Alternatively, this repo can be cloned as either a real or fake submodule inside your project.
+To install, download the [`ThingsJSON.swift`](https://github.com/culturedcode/ThingsJSONCoder/blob/master/ThingsJSON.swift) file and add it as a source file to your own project. Alternatively, this repo can be cloned as either a real or fake submodule inside your project.
 
 ## Requirements
 
 This code is written with Swift 4.
 
-## Things Model Classes
+## Getting Started
 
-The following model classes can be encoded into JSON:
+#### The Things JSON Container
 
-* `TJSTodo`
-* `TJSProject`
-* `TJSHeading`
-* `TJSChecklistItem`
+The top level object that will be encoded into the JSON array is the `TJSContainer`. This object contains an array of the items to be included in the JSON.
 
-#### Container enums
+#### Model Classes
 
-There are two wrapper enums used to package objects into arrays. Associated objects are used to hold the above model objects inside. These enums exist to allow more than one type of object inside an array while retaining type safety. They also handle the encoding and decoding of heterogeneous types within an array to and from JSON.
+The following Things model classes can be encoded into JSON:
 
-* `TJSToplevelItem` – This enum has cases for todo and project objects. An array of top level items (`[TJSToplevelItem]`) should be the root object that is encoded into the JSON that is passed to the URL scheme.
+* `Todo`
+* `Project`
+* `Heading`
+* `ChecklistItem`
+
+#### Container Enums
+
+There are two wrapper enums used to package objects into arrays. Associated values are used to hold the above model objects inside. These enums exist to allow more than one type of object inside an array while retaining type safety. They also handle the encoding and decoding of heterogeneous types within an array to and from JSON.
+
+* `TJSContainer.Item` – This enum has cases for todo and project objects. Only todo and project items can exist at the top level array in the JSON.
 
 * `TJSProject.Item` – This enum has cases for todo and heading objects. Only todo and heading objects can be items inside a project.
 
-## Examples
+## Example
 
-#### Create a todo
+Create two todos and a project, encode them into JSON and send to Things’ add command.
 
 ```Swift
 let todo1 = TJSTodo(title: "Pick up dry cleaning", when: "today")
-```
-
-#### Create a todo with checklist items
-
-Checklist items do not need to be wrapped in any enum as there is only a single object type inside a todo’s checklist items array.
-
-```Swift
 let todo2 = TJSTodo(title: "Pack for vacation",
                     checklistItems: [TJSChecklistItem(title: "Camera"),
                                      TJSChecklistItem(title: "Passport")])
-```
 
-#### Create a project containing a heading and a todo
-
-Each item inside a project must be wrapped in a `TJSProject.Items` enum.
-
-```Swift
 let project = TJSProject(title: "Go Shopping",
                          items: [.heading(TJSHeading(title: "Dairy")),
                                  .todo(TJSTodo(title: "Milk"))])
-```
 
-#### Encode the above todos and project as JSON
-
-```Swift
-let items = [TJSTopLevelItem.todo(todo1),
-             TJSTopLevelItem.todo(todo2),
-             TJSTopLevelItem.project(project)]
+let container = TJSContainer(items: [.todo(todo1),
+                                     .todo(todo2),
+                                     .project(project)])
 do {
     let encoder = JSONEncoder()
-    let data = try encoder.encode(items)
-    let json = String.init(data: data, encoding: .utf8)
+    let data = try encoder.encode(container)
+    let json = String.init(data: data, encoding: .utf8)!
+    let jsonEncoded = json.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+    let url = URL(string: "things:///add-json?data=\(jsonEncoded)")!
+    UIApplication.shared.open(url, options: [:], completionHandler: nil)
 }
 catch {
     // Handle error
 }
-```
-
-#### Percent encode JSON, create a URL and open Things
-
-The resultant JSON is then ready to be percent encoded and used to invoke the Things URL scheme. When percent encoding, ensure to specify the `.urlQueryAllowed` character set.
-
-```Swift
-let jsonEncoded = json.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-let url = URL(string: "things:///add-json?data=\(jsonEncoded)")!
-UIApplication.shared.open(url, options: [:], completionHandler: nil)
 ```
 
 ## License
