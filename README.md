@@ -65,4 +65,4 @@ catch {
 
 ## License
 
-This code is released under the MIT license. See LICENSE for details.
+This code is released under the MIT license. See [LICENSE](https://github.com/culturedcode/ThingsJSONCoder/blob/master/LICENSE) for details.
