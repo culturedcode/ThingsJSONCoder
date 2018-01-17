@@ -132,7 +132,7 @@ class TJSTodo : TJSModelItem, Codable {
     var listID: String?
     var list: String?
     var completed: Bool?
-    var cancelled: Bool?
+    var canceled: Bool?
 
     private enum CodingKeys: String, CodingKey {
         case title
@@ -144,7 +144,7 @@ class TJSTodo : TJSModelItem, Codable {
         case listID = "list-id"
         case list
         case completed
-        case cancelled
+        case canceled
     }
 
     /// Create and return a new todo configured with the provided values.
@@ -157,7 +157,7 @@ class TJSTodo : TJSModelItem, Codable {
          listID: String? = nil,
          list: String? = nil,
          completed: Bool? = nil,
-         cancelled: Bool? = nil) {
+         canceled: Bool? = nil) {
 
         super.init()
         self.type = "to-do"
@@ -171,7 +171,7 @@ class TJSTodo : TJSModelItem, Codable {
         self.listID = listID
         self.list = list
         self.completed = completed
-        self.cancelled = cancelled
+        self.canceled = canceled
     }
 
     /// Create and return a new todo configured with same values as the provided todo.
@@ -185,7 +185,7 @@ class TJSTodo : TJSModelItem, Codable {
                   listID: todo.listID,
                   list: todo.list,
                   completed: todo.completed,
-                  cancelled: todo.cancelled)
+                  canceled: todo.canceled)
     }
 
     /// Creates a new instance by decoding from the given decoder.
@@ -202,7 +202,7 @@ class TJSTodo : TJSModelItem, Codable {
             listID = try attributes.decodeIfPresent(String.self, forKey: .listID)
             list = try attributes.decodeIfPresent(String.self, forKey: .list)
             completed = try attributes.decodeIfPresent(Bool.self, forKey: .completed)
-            cancelled = try attributes.decodeIfPresent(Bool.self, forKey: .cancelled)
+            canceled = try attributes.decodeIfPresent(Bool.self, forKey: .canceled)
         }
         catch TJSError.invalidType(let expectedType, let errorContext) {
             throw DecodingError.typeMismatch(expectedType, errorContext)
@@ -221,7 +221,7 @@ class TJSTodo : TJSModelItem, Codable {
         try attributes.encodeIfPresent(listID, forKey: .listID)
         try attributes.encodeIfPresent(list, forKey: .list)
         try attributes.encodeIfPresent(completed, forKey: .completed)
-        try attributes.encodeIfPresent(cancelled, forKey: .cancelled)
+        try attributes.encodeIfPresent(canceled, forKey: .canceled)
     }
 }
 
@@ -239,7 +239,7 @@ class TJSProject : TJSModelItem, Codable {
     var area: String?
     var items: [Item]?
     var completed: Bool?
-    var cancelled: Bool?
+    var canceled: Bool?
 
     private enum CodingKeys: String, CodingKey {
         case title
@@ -251,7 +251,7 @@ class TJSProject : TJSModelItem, Codable {
         case area
         case items
         case completed
-        case cancelled
+        case canceled
     }
 
     /// Create and return a new project configured with the provided values.
@@ -264,7 +264,7 @@ class TJSProject : TJSModelItem, Codable {
          area: String? = nil,
          items: [Item]? = nil,
          completed: Bool? = nil,
-         cancelled: Bool? = nil) {
+         canceled: Bool? = nil) {
 
         super.init()
         self.type = "project"
@@ -278,7 +278,7 @@ class TJSProject : TJSModelItem, Codable {
         self.area = area
         self.items = items
         self.completed = completed
-        self.cancelled = cancelled
+        self.canceled = canceled
     }
 
     /// Create and return a new project configured with same values as the provided project.
@@ -292,7 +292,7 @@ class TJSProject : TJSModelItem, Codable {
                   area: project.area,
                   items: project.items,
                   completed: project.completed,
-                  cancelled: project.cancelled)
+                  canceled: project.canceled)
     }
 
     /// Creates a new instance by decoding from the given decoder.
@@ -308,7 +308,7 @@ class TJSProject : TJSModelItem, Codable {
             areaID = try attributes.decodeIfPresent(String.self, forKey: .areaID)
             area = try attributes.decodeIfPresent(String.self, forKey: .area)
             completed = try attributes.decodeIfPresent(Bool.self, forKey: .completed)
-            cancelled = try attributes.decodeIfPresent(Bool.self, forKey: .cancelled)
+            canceled = try attributes.decodeIfPresent(Bool.self, forKey: .canceled)
             items = try attributes.decodeIfPresent([Item].self, forKey: .items)
         }
         catch TJSError.invalidType(let expectedType, let errorContext) {
@@ -328,7 +328,7 @@ class TJSProject : TJSModelItem, Codable {
         try attributes.encodeIfPresent(area, forKey: .area)
         try attributes.encodeIfPresent(items, forKey: .items)
         try attributes.encodeIfPresent(completed, forKey: .completed)
-        try attributes.encodeIfPresent(cancelled, forKey: .cancelled)
+        try attributes.encodeIfPresent(canceled, forKey: .canceled)
     }
 
     /// A child item of a project.
@@ -421,32 +421,32 @@ class TJSHeading : TJSModelItem, Codable {
 class TJSChecklistItem : TJSModelItem, Codable {
     var title: String?
     var completed: Bool?
-    var cancelled: Bool?
+    var canceled: Bool?
 
     private enum CodingKeys: String, CodingKey {
         case title
         case completed
-        case cancelled
+        case canceled
     }
 
     /// Create and return a new checklist item configured with the provided values.
     init(title: String? = nil,
          completed: Bool? = nil,
-         cancelled: Bool? = nil) {
+         canceled: Bool? = nil) {
 
         super.init()
         self.type = "checklist-item"
 
         self.title = title
         self.completed = completed
-        self.cancelled = cancelled
+        self.canceled = canceled
     }
 
     /// Create and return a new checklist item configured with same values as the provided checklist item.
     convenience init (_ checklistItem: TJSChecklistItem) {
         self.init(title: checklistItem.title,
                   completed: checklistItem.completed,
-                  cancelled: checklistItem.cancelled)
+                  canceled: checklistItem.canceled)
     }
 
     /// Creates a new instance by decoding from the given decoder.
@@ -455,7 +455,7 @@ class TJSChecklistItem : TJSModelItem, Codable {
         let attributes = try self.attributes(CodingKeys.self, from: decoder)
         title = try attributes.decodeIfPresent(String.self, forKey: .title)
         completed = try attributes.decodeIfPresent(Bool.self, forKey: .completed)
-        cancelled = try attributes.decodeIfPresent(Bool.self, forKey: .cancelled)
+        canceled = try attributes.decodeIfPresent(Bool.self, forKey: .canceled)
     }
 
     /// Encodes this value into the given encoder.
@@ -463,7 +463,7 @@ class TJSChecklistItem : TJSModelItem, Codable {
         var attributes = try self.attributes(CodingKeys.self, for: encoder)
         try attributes.encodeIfPresent(title, forKey: .title)
         try attributes.encodeIfPresent(completed, forKey: .completed)
-        try attributes.encodeIfPresent(cancelled, forKey: .cancelled)
+        try attributes.encodeIfPresent(canceled, forKey: .canceled)
     }
 }
 
