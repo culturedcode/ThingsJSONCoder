@@ -131,6 +131,7 @@ class TJSTodo : TJSModelItem, Codable {
     var checklistItems: [TJSChecklistItem]?
     var listID: String?
     var list: String?
+    var heading: String?
     var completed: Bool?
     var canceled: Bool?
 
@@ -143,6 +144,7 @@ class TJSTodo : TJSModelItem, Codable {
         case checklistItems = "checklist-items"
         case listID = "list-id"
         case list
+        case heading
         case completed
         case canceled
     }
@@ -156,6 +158,7 @@ class TJSTodo : TJSModelItem, Codable {
          checklistItems: [TJSChecklistItem]? = nil,
          listID: String? = nil,
          list: String? = nil,
+         heading: String? = nil,
          completed: Bool? = nil,
          canceled: Bool? = nil) {
 
@@ -170,6 +173,7 @@ class TJSTodo : TJSModelItem, Codable {
         self.checklistItems = checklistItems
         self.listID = listID
         self.list = list
+        self.heading = heading
         self.completed = completed
         self.canceled = canceled
     }
@@ -184,6 +188,7 @@ class TJSTodo : TJSModelItem, Codable {
                   checklistItems: todo.checklistItems,
                   listID: todo.listID,
                   list: todo.list,
+                  heading: todo.heading,
                   completed: todo.completed,
                   canceled: todo.canceled)
     }
@@ -201,6 +206,7 @@ class TJSTodo : TJSModelItem, Codable {
             checklistItems = try attributes.decodeIfPresent([TJSChecklistItem].self, forKey: .checklistItems)
             listID = try attributes.decodeIfPresent(String.self, forKey: .listID)
             list = try attributes.decodeIfPresent(String.self, forKey: .list)
+            heading = try attributes.decodeIfPresent(String.self, forKey: .heading)
             completed = try attributes.decodeIfPresent(Bool.self, forKey: .completed)
             canceled = try attributes.decodeIfPresent(Bool.self, forKey: .canceled)
         }
@@ -220,6 +226,7 @@ class TJSTodo : TJSModelItem, Codable {
         try attributes.encodeIfPresent(checklistItems, forKey: .checklistItems)
         try attributes.encodeIfPresent(listID, forKey: .listID)
         try attributes.encodeIfPresent(list, forKey: .list)
+        try attributes.encodeIfPresent(heading, forKey: .heading)
         try attributes.encodeIfPresent(completed, forKey: .completed)
         try attributes.encodeIfPresent(canceled, forKey: .canceled)
     }
