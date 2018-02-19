@@ -54,8 +54,10 @@ do {
     let encoder = JSONEncoder()
     let data = try encoder.encode(container)
     let json = String.init(data: data, encoding: .utf8)!
-    let jsonEncoded = json.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-    let url = URL(string: "things:///add-json?data=\(jsonEncoded)")!
+    var components = URLComponents.init(string: "things:///add-json")!
+    let queryItem = URLQueryItem.init(name: "data", value: json)
+    components.queryItems = [queryItem]
+    let url = components.url!
     UIApplication.shared.open(url, options: [:], completionHandler: nil)
 }
 catch {
