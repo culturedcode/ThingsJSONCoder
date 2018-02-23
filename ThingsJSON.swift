@@ -127,8 +127,8 @@ public class TJSModelItem {
         self.operation = try container.decodeIfPresent(Operation.self, forKey: .operation) ?? .create
         self.id = try container.decodeIfPresent(String.self, forKey: .id)
         guard decodedType == self.type else {
-            let description = String.init(format: "Expected to decode a %@ but found a %@ instead.", self.type, decodedType)
-            let errorContext = DecodingError.Context.init(codingPath: [CodingKeys.type], debugDescription: description)
+            let description = String(format: "Expected to decode a %@ but found a %@ instead.", self.type, decodedType)
+            let errorContext = DecodingError.Context(codingPath: [CodingKeys.type], debugDescription: description)
             let expectedType = Swift.type(of: self)
             throw TJSError.invalidType(expectedType: expectedType, errorContext: errorContext)
         }
