@@ -53,9 +53,9 @@ let container = TJSContainer(items: [.todo(todo1),
 do {
     let encoder = JSONEncoder()
     let data = try encoder.encode(container)
-    let json = String.init(data: data, encoding: .utf8)!
-    var components = URLComponents.init(string: "things:///add-json")!
-    let queryItem = URLQueryItem.init(name: "data", value: json)
+    let json = String(data: data, encoding: .utf8)!
+    var components = URLComponents(string: "things:///add-json")!
+    let queryItem = URLQueryItem(name: "data", value: json)
     components.queryItems = [queryItem]
     let url = components.url!
     UIApplication.shared.open(url, options: [:], completionHandler: nil)
