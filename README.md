@@ -1,6 +1,6 @@
 # Things JSON Coder
 
-This repo contains a Swift file that allows the creation of the JSON required to be passed to the `add-json` command of Things’ URL scheme.
+This repo contains a Swift file that allows the creation of the JSON required to be passed to the `json` command of Things’ URL scheme.
 
 ## Installation
 
@@ -33,6 +33,9 @@ There are two wrapper enums used to package objects into arrays. Associated valu
 
 * `TJSProject.Item` – This enum has cases for todo and heading objects. Only todo and heading objects can be items inside a project.
 
+#### Dates
+Dates should be formatted according to ISO8601. Setting the JSON encoder’s `dateEncodingStrategy` to `ThingsJSONDateEncodingStrategy()` is the easiest way to do this (see example below).
+
 ## Example
 
 Create two todos and a project, encode them into JSON and send to Things’ add command.
@@ -52,6 +55,7 @@ let container = TJSContainer(items: [.todo(todo1),
                                      .project(project)])
 do {
     let encoder = JSONEncoder()
+    encoder.dateEncodingStrategy = ThingsJSONDateEncodingStrategy()
     let data = try encoder.encode(container)
     let json = String.init(data: data, encoding: .utf8)!
     var components = URLComponents.init(string: "things:///add-json")!
