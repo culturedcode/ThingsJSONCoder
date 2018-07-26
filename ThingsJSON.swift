@@ -27,24 +27,24 @@ import Foundation
 // MARK: Container
 
 /// The container holding the array of items to be encoded to JSON.
-class TJSContainer : Codable {
+public class TJSContainer : Codable {
 
     /// The array of items that will be encoded or decoded from the JSON.
-    var items = [Item]()
+    public var items = [Item]()
 
     /// Create and return a new ThingsJSON object configured with the provided items.
-    init(items: [Item]) {
+    public init(items: [Item]) {
         self.items = items
     }
 
     /// Creates a new instance by decoding from the given decoder.
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         self.items = try container.decode([Item].self)
     }
 
     /// Encodes this value into the given encoder.
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         try self.items.encode(to: encoder)
     }
 
@@ -53,12 +53,12 @@ class TJSContainer : Codable {
     /// This is an enum that wraps a TJSTodo or TJSProject object and handles its encoding
     /// and decoding to JSON. This is required because there is no way of specifiying a
     /// strongly typed array that contains more than one type.
-    enum Item : Codable {
+    public enum Item : Codable {
         case todo(TJSTodo)
         case project(TJSProject)
 
         /// Creates a new instance by decoding from the given decoder.
-        init(from decoder: Decoder) throws {
+        public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
 
             do {
@@ -74,7 +74,7 @@ class TJSContainer : Codable {
         }
 
         /// Encodes this value into the given encoder.
-        func encode(to encoder: Encoder) throws {
+        public func encode(to encoder: Encoder) throws {
             switch self {
             case .todo(let todo):
                 try todo.encode(to: encoder)
@@ -91,14 +91,14 @@ class TJSContainer : Codable {
 /// The superclass of all the Things JSON model items.
 ///
 /// Do not instantiate this class itself. Instead use one of the subclasses.
-class TJSModelItem {
+public class TJSModelItem {
     fileprivate var type: String = ""
 
     /// The operation to perform on the object.
-    var operation: Operation
+    public var operation: Operation
 
     /// The ID of the item to update.
-    var id: String?
+    public var id: String?
 
     private enum CodingKeys: String, CodingKey {
         case type
@@ -107,7 +107,7 @@ class TJSModelItem {
         case attributes
     }
 
-    enum Operation: String, Codable {
+    public enum Operation: String, Codable {
         /// Create a new item.
         case create = "create"
         /// Update an existing item.
@@ -116,7 +116,7 @@ class TJSModelItem {
         case update = "update"
     }
 
-    init(operation: Operation, id: String? = nil) {
+    public init(operation: Operation, id: String? = nil) {
         self.operation = operation
         self.id = id
     }
@@ -148,25 +148,25 @@ class TJSModelItem {
 // MARK: -
 
 /// Represents a to-do in Things.
-class TJSTodo : TJSModelItem, Codable {
-    var title: String?
-    var notes: String?
-    var prependNotes: String?
-    var appendNotes: String?
-    var when: String?
-    var deadline: String?
-    var tags: [String]?
-    var addTags: [String]?
-    var checklistItems: [TJSChecklistItem]?
-    var prependChecklistItems: [TJSChecklistItem]?
-    var appendChecklistItems: [TJSChecklistItem]?
-    var listID: String?
-    var list: String?
-    var heading: String?
-    var completed: Bool?
-    var canceled: Bool?
-    var creationDate: Date?
-    var completionDate: Date?
+public class TJSTodo : TJSModelItem, Codable {
+    public var title: String?
+    public var notes: String?
+    public var prependNotes: String?
+    public var appendNotes: String?
+    public var when: String?
+    public var deadline: String?
+    public var tags: [String]?
+    public var addTags: [String]?
+    public var checklistItems: [TJSChecklistItem]?
+    public var prependChecklistItems: [TJSChecklistItem]?
+    public var appendChecklistItems: [TJSChecklistItem]?
+    public var listID: String?
+    public var list: String?
+    public var heading: String?
+    public var completed: Bool?
+    public var canceled: Bool?
+    public var creationDate: Date?
+    public var completionDate: Date?
 
     private enum CodingKeys: String, CodingKey {
         case title
@@ -190,7 +190,7 @@ class TJSTodo : TJSModelItem, Codable {
     }
 
     /// Create and return a new todo configured with the provided values.
-    init(operation: Operation = .create,
+    public init(operation: Operation = .create,
          id: String? = nil,
          title: String? = nil,
          notes: String? = nil,
@@ -235,7 +235,7 @@ class TJSTodo : TJSModelItem, Codable {
     }
 
     /// Create and return a new todo configured with same values as the provided todo.
-    convenience init(_ todo: TJSTodo) {
+    public convenience init(_ todo: TJSTodo) {
         self.init(id: todo.id,
                   title: todo.title,
                   notes: todo.notes,
@@ -258,7 +258,7 @@ class TJSTodo : TJSModelItem, Codable {
     }
 
     /// Creates a new instance by decoding from the given decoder.
-    required convenience init(from decoder: Decoder) throws {
+    public required convenience init(from decoder: Decoder) throws {
         self.init()
         let attributes = try self.attributes(CodingKeys.self, from: decoder)
         do {
@@ -287,7 +287,7 @@ class TJSTodo : TJSModelItem, Codable {
     }
 
     /// Encodes this value into the given encoder.
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var attributes = try self.attributes(CodingKeys.self, for: encoder)
         try attributes.encodeIfPresent(title, forKey: .title)
         try attributes.encodeIfPresent(notes, forKey: .notes)
@@ -314,7 +314,7 @@ class TJSTodo : TJSModelItem, Codable {
 // MARK: -
 
 /// Represents a project in Things.
-class TJSProject : TJSModelItem, Codable {
+public class TJSProject : TJSModelItem, Codable {
     var title: String?
     var notes: String?
     var prependNotes: String?
@@ -409,7 +409,7 @@ class TJSProject : TJSModelItem, Codable {
     }
 
     /// Creates a new instance by decoding from the given decoder.
-    required convenience init(from decoder: Decoder) throws {
+    public required convenience init(from decoder: Decoder) throws {
         self.init()
         let attributes = try self.attributes(CodingKeys.self, from: decoder)
         do {
@@ -435,7 +435,7 @@ class TJSProject : TJSModelItem, Codable {
     }
 
     /// Encodes this value into the given encoder.
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var attributes = try self.attributes(CodingKeys.self, for: encoder)
         try attributes.encodeIfPresent(title, forKey: .title)
         try attributes.encodeIfPresent(notes, forKey: .notes)
@@ -459,12 +459,12 @@ class TJSProject : TJSModelItem, Codable {
     /// This is an enum that wraps a TJSTodo or TJSHeading object and handles its encoding
     /// and decoding to JSON. This is required because there is no way of specifiying a
     /// strongly typed array that contains more than one type.
-    enum Item : Codable {
+    public enum Item : Codable {
         case todo(TJSTodo)
         case heading(TJSHeading)
 
         /// Creates a new instance by decoding from the given decoder.
-        init(from decoder: Decoder) throws {
+        public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
 
             do {
@@ -480,7 +480,7 @@ class TJSProject : TJSModelItem, Codable {
         }
 
         /// Encodes this value into the given encoder.
-        func encode(to encoder: Encoder) throws {
+        public func encode(to encoder: Encoder) throws {
             switch self {
             case .todo(let todo):
                 try todo.encode(to: encoder)
@@ -495,11 +495,11 @@ class TJSProject : TJSModelItem, Codable {
 // MARK: -
 
 /// Represents a heading in Things.
-class TJSHeading : TJSModelItem, Codable {
-    var title: String?
-    var archived: Bool?
-    var creationDate: Date?
-    var completionDate: Date?
+public class TJSHeading : TJSModelItem, Codable {
+    public var title: String?
+    public var archived: Bool?
+    public var creationDate: Date?
+    public var completionDate: Date?
 
     private enum CodingKeys: String, CodingKey {
         case title
@@ -509,7 +509,7 @@ class TJSHeading : TJSModelItem, Codable {
     }
 
     /// Create and return a new heading configured with the provided values.
-    init(operation: Operation = .create,
+    public init(operation: Operation = .create,
          title: String? = nil,
          archived: Bool? = nil,
          creationDate: Date? = nil,
@@ -525,7 +525,7 @@ class TJSHeading : TJSModelItem, Codable {
     }
 
     /// Create and return a new heading configured with same values as the provided heading.
-    convenience init(_ heading: TJSHeading) {
+    public convenience init(_ heading: TJSHeading) {
         self.init(title: heading.title,
                   archived: heading.archived,
                   creationDate: heading.creationDate,
@@ -533,7 +533,7 @@ class TJSHeading : TJSModelItem, Codable {
     }
 
     /// Creates a new instance by decoding from the given decoder.
-    required convenience init(from decoder: Decoder) throws {
+    public required convenience init(from decoder: Decoder) throws {
         self.init()
         let attributes = try self.attributes(CodingKeys.self, from: decoder)
         title = try attributes.decodeIfPresent(String.self, forKey: .title)
@@ -543,7 +543,7 @@ class TJSHeading : TJSModelItem, Codable {
     }
 
     /// Encodes this value into the given encoder.
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var attributes = try self.attributes(CodingKeys.self, for: encoder)
         try attributes.encodeIfPresent(title, forKey: .title)
         try attributes.encodeIfPresent(archived, forKey: .archived)
@@ -556,12 +556,12 @@ class TJSHeading : TJSModelItem, Codable {
 // MARK: -
 
 /// Represents a checklist item in Things.
-class TJSChecklistItem : TJSModelItem, Codable {
-    var title: String?
-    var completed: Bool?
-    var canceled: Bool?
-    var creationDate: Date?
-    var completionDate: Date?
+public class TJSChecklistItem : TJSModelItem, Codable {
+    public var title: String?
+    public var completed: Bool?
+    public var canceled: Bool?
+    public var creationDate: Date?
+    public var completionDate: Date?
 
     private enum CodingKeys: String, CodingKey {
         case title
@@ -572,7 +572,7 @@ class TJSChecklistItem : TJSModelItem, Codable {
     }
 
     /// Create and return a new checklist item configured with the provided values.
-    init(operation: Operation = .create,
+    public init(operation: Operation = .create,
          title: String? = nil,
          completed: Bool? = nil,
          canceled: Bool? = nil,
@@ -590,7 +590,7 @@ class TJSChecklistItem : TJSModelItem, Codable {
     }
 
     /// Create and return a new checklist item configured with same values as the provided checklist item.
-    convenience init (_ checklistItem: TJSChecklistItem) {
+    public convenience init (_ checklistItem: TJSChecklistItem) {
         self.init(title: checklistItem.title,
                   completed: checklistItem.completed,
                   canceled: checklistItem.canceled,
@@ -599,7 +599,7 @@ class TJSChecklistItem : TJSModelItem, Codable {
     }
 
     /// Creates a new instance by decoding from the given decoder.
-    required convenience init(from decoder: Decoder) throws {
+    public required convenience init(from decoder: Decoder) throws {
         self.init()
         let attributes = try self.attributes(CodingKeys.self, from: decoder)
         title = try attributes.decodeIfPresent(String.self, forKey: .title)
@@ -610,7 +610,7 @@ class TJSChecklistItem : TJSModelItem, Codable {
     }
 
     /// Encodes this value into the given encoder.
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var attributes = try self.attributes(CodingKeys.self, for: encoder)
         try attributes.encodeIfPresent(title, forKey: .title)
         try attributes.encodeIfPresent(completed, forKey: .completed)
@@ -633,7 +633,7 @@ private enum TJSError : Error {
 /// A date encoding strategy to format a date according to ISO8601.
 ///
 /// Use to with a JSONEncoder to correctly format dates.
-func ThingsJSONDateEncodingStrategy() -> JSONEncoder.DateEncodingStrategy {
+public func ThingsJSONDateEncodingStrategy() -> JSONEncoder.DateEncodingStrategy {
     if #available(iOS 10, OSX 10.12, *) {
         return .iso8601
     }
@@ -645,7 +645,7 @@ func ThingsJSONDateEncodingStrategy() -> JSONEncoder.DateEncodingStrategy {
 /// A date decoding strategy to format a date according to ISO8601.
 ///
 /// Use to with a JSONDecoder to correctly format dates.
-func ThingsJSONDateDecodingStrategy() -> JSONDecoder.DateDecodingStrategy {
+public func ThingsJSONDateDecodingStrategy() -> JSONDecoder.DateDecodingStrategy {
     if #available(iOS 10, OSX 10.12, *) {
         return .iso8601
     }
