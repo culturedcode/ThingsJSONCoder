@@ -155,6 +155,7 @@ public class TJSTodo : TJSModelItem, Codable {
     public var appendNotes: String?
     public var when: String?
     public var deadline: String?
+    public var tagIDs: [String]?
     public var tags: [String]?
     public var addTags: [String]?
     public var checklistItems: [TJSChecklistItem]?
@@ -175,6 +176,7 @@ public class TJSTodo : TJSModelItem, Codable {
         case appendNotes = "append-notes"
         case when
         case deadline
+        case tagIDs = "tag-ids"
         case tags
         case addTags = "add-tags"
         case checklistItems = "checklist-items"
@@ -198,6 +200,7 @@ public class TJSTodo : TJSModelItem, Codable {
          appendNotes: String? = nil,
          when: String? = nil,
          deadline: String? = nil,
+         tagIDs: [String]? = nil,
          tags: [String]? = nil,
          addTags: [String]? = nil,
          checklistItems: [TJSChecklistItem]? = nil,
@@ -220,6 +223,7 @@ public class TJSTodo : TJSModelItem, Codable {
         self.appendNotes = appendNotes
         self.when = when
         self.deadline = deadline
+        self.tagIDs = tagIDs
         self.tags = tags
         self.addTags = addTags
         self.checklistItems = checklistItems
@@ -243,6 +247,7 @@ public class TJSTodo : TJSModelItem, Codable {
                   appendNotes: todo.appendNotes,
                   when: todo.when,
                   deadline: todo.deadline,
+                  tagIDs: todo.tagIDs,
                   tags: todo.tags,
                   addTags: todo.addTags,
                   checklistItems: todo.checklistItems,
@@ -268,6 +273,7 @@ public class TJSTodo : TJSModelItem, Codable {
             appendNotes = try attributes.decodeIfPresent(String.self, forKey: .appendNotes)
             when = try attributes.decodeIfPresent(String.self, forKey: .when)
             deadline = try attributes.decodeIfPresent(String.self, forKey: .deadline)
+            tagIDs = try attributes.decodeIfPresent([String].self, forKey: .tagIDs)
             tags = try attributes.decodeIfPresent([String].self, forKey: .tags)
             addTags = try attributes.decodeIfPresent([String].self, forKey: .addTags)
             checklistItems = try attributes.decodeIfPresent([TJSChecklistItem].self, forKey: .checklistItems)
@@ -295,6 +301,7 @@ public class TJSTodo : TJSModelItem, Codable {
         try attributes.encodeIfPresent(appendNotes, forKey: .appendNotes)
         try attributes.encodeIfPresent(when, forKey: .when)
         try attributes.encodeIfPresent(deadline, forKey: .deadline)
+        try attributes.encodeIfPresent(tagIDs, forKey: .tagIDs)
         try attributes.encodeIfPresent(tags, forKey: .tags)
         try attributes.encodeIfPresent(addTags, forKey: .addTags)
         try attributes.encodeIfPresent(checklistItems, forKey: .checklistItems)
@@ -321,6 +328,7 @@ public class TJSProject : TJSModelItem, Codable {
     var appendNotes: String?
     var when: String?
     var deadline: String?
+    var tagIDs: [String]?
     var tags: [String]?
     var addTags: [String]?
     var areaID: String?
@@ -338,6 +346,7 @@ public class TJSProject : TJSModelItem, Codable {
         case appendNotes = "append-notes"
         case when
         case deadline
+        case tagIDs = "tag-ids"
         case tags
         case addTags = "add-tags"
         case areaID = "area-id"
@@ -358,6 +367,7 @@ public class TJSProject : TJSModelItem, Codable {
          appendNotes: String? = nil,
          when: String? = nil,
          deadline: String? = nil,
+         tagIDs: [String]? = nil,
          tags: [String]? = nil,
          addTags: [String]? = nil,
          areaID: String? = nil,
@@ -377,6 +387,7 @@ public class TJSProject : TJSModelItem, Codable {
         self.appendNotes = appendNotes
         self.when = when
         self.deadline = deadline
+        self.tagIDs = tagIDs
         self.tags = tags
         self.addTags = addTags
         self.areaID = areaID
@@ -397,6 +408,7 @@ public class TJSProject : TJSModelItem, Codable {
                   appendNotes: project.appendNotes,
                   when: project.when,
                   deadline: project.deadline,
+                  tagIDs: project.tagIDs,
                   tags: project.tags,
                   addTags: project.addTags,
                   areaID: project.areaID,
@@ -419,6 +431,7 @@ public class TJSProject : TJSModelItem, Codable {
             appendNotes = try attributes.decodeIfPresent(String.self, forKey: .appendNotes)
             when = try attributes.decodeIfPresent(String.self, forKey: .when)
             deadline = try attributes.decodeIfPresent(String.self, forKey: .deadline)
+            tagIDs = try attributes.decodeIfPresent([String].self, forKey: .tagIDs)
             tags = try attributes.decodeIfPresent([String].self, forKey: .tags)
             addTags = try attributes.decodeIfPresent([String].self, forKey: .addTags)
             areaID = try attributes.decodeIfPresent(String.self, forKey: .areaID)
@@ -443,6 +456,7 @@ public class TJSProject : TJSModelItem, Codable {
         try attributes.encodeIfPresent(appendNotes, forKey: .appendNotes)
         try attributes.encodeIfPresent(when, forKey: .when)
         try attributes.encodeIfPresent(deadline, forKey: .deadline)
+        try attributes.encodeIfPresent(tagIDs, forKey: .tagIDs)
         try attributes.encodeIfPresent(tags, forKey: .tags)
         try attributes.encodeIfPresent(addTags, forKey: .addTags)
         try attributes.encodeIfPresent(areaID, forKey: .areaID)
