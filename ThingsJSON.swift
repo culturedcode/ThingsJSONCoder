@@ -648,31 +648,12 @@ private enum TJSError : Error {
 ///
 /// Use to with a JSONEncoder to correctly format dates.
 public func ThingsJSONDateEncodingStrategy() -> JSONEncoder.DateEncodingStrategy {
-    if #available(iOS 10, OSX 10.12, *) {
-        return .iso8601
-    }
-    else {
-        return .formatted(isoDateFormatter())
-    }
+    return .iso8601
 }
 
 /// A date decoding strategy to format a date according to ISO8601.
 ///
 /// Use to with a JSONDecoder to correctly format dates.
 public func ThingsJSONDateDecodingStrategy() -> JSONDecoder.DateDecodingStrategy {
-    if #available(iOS 10, OSX 10.12, *) {
-        return .iso8601
-    }
-    else {
-        return .formatted(isoDateFormatter())
-    }
-}
-
-private func isoDateFormatter() -> DateFormatter {
-    let dateFormatter = DateFormatter()
-    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-    dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-
-    return dateFormatter
+    return .iso8601
 }
