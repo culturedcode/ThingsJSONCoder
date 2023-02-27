@@ -163,6 +163,7 @@ public class TJSTodo : TJSModelItem, Codable {
     public var appendChecklistItems: [TJSChecklistItem]?
     public var listID: String?
     public var list: String?
+    public var headingID: String?
     public var heading: String?
     public var completed: Bool?
     public var canceled: Bool?
@@ -184,6 +185,7 @@ public class TJSTodo : TJSModelItem, Codable {
         case appendChecklistItems = "append-checklist-items"
         case listID = "list-id"
         case list
+        case headingID = "heading-id"
         case heading
         case completed
         case canceled
@@ -208,6 +210,7 @@ public class TJSTodo : TJSModelItem, Codable {
          appendChecklistItems: [TJSChecklistItem]? = nil,
          listID: String? = nil,
          list: String? = nil,
+         headingID: String? = nil,
          heading: String? = nil,
          completed: Bool? = nil,
          canceled: Bool? = nil,
@@ -232,6 +235,7 @@ public class TJSTodo : TJSModelItem, Codable {
         self.listID = listID
         self.list = list
         self.heading = heading
+        self.headingID = headingID
         self.completed = completed
         self.canceled = canceled
         self.creationDate = creationDate
@@ -255,6 +259,7 @@ public class TJSTodo : TJSModelItem, Codable {
                   appendChecklistItems: todo.appendChecklistItems,
                   listID: todo.listID,
                   list: todo.list,
+                  headingID: todo.headingID,
                   heading: todo.heading,
                   completed: todo.completed,
                   canceled: todo.canceled,
@@ -281,6 +286,7 @@ public class TJSTodo : TJSModelItem, Codable {
             appendChecklistItems = try attributes.decodeIfPresent([TJSChecklistItem].self, forKey: .appendChecklistItems)
             listID = try attributes.decodeIfPresent(String.self, forKey: .listID)
             list = try attributes.decodeIfPresent(String.self, forKey: .list)
+            headingID = try attributes.decodeIfPresent(String.self, forKey: .headingID)
             heading = try attributes.decodeIfPresent(String.self, forKey: .heading)
             completed = try attributes.decodeIfPresent(Bool.self, forKey: .completed)
             canceled = try attributes.decodeIfPresent(Bool.self, forKey: .canceled)
@@ -309,6 +315,7 @@ public class TJSTodo : TJSModelItem, Codable {
         try attributes.encodeIfPresent(appendChecklistItems, forKey: .appendChecklistItems)
         try attributes.encodeIfPresent(listID, forKey: .listID)
         try attributes.encodeIfPresent(list, forKey: .list)
+        try attributes.encodeIfPresent(headingID, forKey: .headingID)
         try attributes.encodeIfPresent(heading, forKey: .heading)
         try attributes.encodeIfPresent(completed, forKey: .completed)
         try attributes.encodeIfPresent(canceled, forKey: .canceled)
