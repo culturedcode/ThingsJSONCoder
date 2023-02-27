@@ -66,7 +66,7 @@ public class TJSContainer : Codable {
                 let todo = try container.decode(TJSTodo.self)
                 self = .todo(todo)
             }
-            catch TJSError.invalidType(_, _) {
+            catch TJSError.invalidType(expectedType: _, errorContext: _) {
                 // If it's the wrong type, try a project
                 let project = try container.decode(TJSProject.self)
                 self = .project(project)
@@ -486,7 +486,7 @@ public class TJSProject : TJSModelItem, Codable {
                 let todo = try container.decode(TJSTodo.self)
                 self = .todo(todo)
             }
-            catch TJSError.invalidType(_, _) {
+            catch TJSError.invalidType(expectedType: _, errorContext: _) {
                 // If it's the wrong type, try a heading
                 let heading = try container.decode(TJSHeading.self)
                 self = .heading(heading)
